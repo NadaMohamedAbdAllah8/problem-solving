@@ -1,7 +1,7 @@
 <?php
 
 // memoization
-function fibonacci($number, $memo)
+function fibonacci_using_memoization($number, $memo)
 {
     if($memo[$number]!=null) {
         return $memo[$number];
@@ -10,7 +10,7 @@ function fibonacci($number, $memo)
     if($number==1||$number==2) {
         $result= 1;
     } else {
-        $result= fibonacci($number-1, $memo)+fibonacci($number-2, $memo);
+        $result= fibonacci_using_memoization($number-1, $memo)+fibonacci_using_memoization($number-2, $memo);
     }
 
     $memo[$number]=$result;
