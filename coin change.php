@@ -4,8 +4,8 @@ use Solution as GlobalSolution;
 
 $amount = 3;
 $coins = [2];
-$amount_2 =11;
-$coins_2 =[1,2,5];
+$amount_2 =250;
+$coins_2 =[10,20,50,100,200];
 
 $solution = new GlobalSolution();
 echo $solution->coinChange($coins_2, $amount_2).' min possible changes';
