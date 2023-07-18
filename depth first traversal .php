@@ -47,9 +47,9 @@ class BinarySearchTree
             $this->inOrderTraversal($root->left);
         }
 
-                echo $root->val.' ';
+        echo $root->val.' ';
 
-                
+
         if(!is_null($root->right)) {
             $this->inOrderTraversal($root->right);
         }
