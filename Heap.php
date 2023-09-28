@@ -29,9 +29,7 @@ class Heap
         // One by one extract an element from heap
         for ($i = $N - 1; $i > 0; $i--) {
             // Move current root to end
-            $temp = $arr[0];
-            $arr[0] = $arr[$i];
-            $arr[$i] = $temp;
+            $this->swap($arr, 0, $i);
 
             // call max heapify on the reduced heap
             $this->heapify($arr, $i, 0);
