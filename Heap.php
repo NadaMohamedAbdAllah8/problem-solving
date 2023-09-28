@@ -2,20 +2,27 @@
 
 // Example usage:
 $arr = [12, 11, 13, 5, 6, 7, 20];
-$n = count($arr);
+$arr_count = count($arr);
 
 $heap = new Heap();
 
 // Build heap (rearrange array)
-for ($i = $n / 2 - 1; $i >= 0; $i--) {
-    $heap->heapify($arr, $n, $i);
+for ($i = $arr_count / 2 - 1; $i >= 0; $i--) {
+    $heap->heapify($arr, $arr_count, $i);
 }
 
-echo implode(',', $arr) . '<hr>';
+echo implode(',', $arr);
+
+echo '<hr>';
 
 $to_be_sorted_array = [158, 10, 20, 1, 0, -9];
-$heap->heapSort($to_be_sorted_array, count($to_be_sorted_array));
+$arr_count = count($to_be_sorted_array);
+
+$heap->heapSort($to_be_sorted_array, $arr_count);
 echo implode(',', $to_be_sorted_array);
+
+echo '<hr>';
+echo 'deleted=' . $heap->delete($to_be_sorted_array, $arr_count);
 
 class Heap
 {
@@ -35,24 +42,45 @@ class Heap
         }
     }
 
-    public function heapify(&$arr, $n, $i)
+    public function heapify(&$arr, $arr_count, $i)
     {
         $largest = $i;
         $left = 2 * $i + 1;
         $right = 2 * $i + 2;
 
-        if ($left < $n && $arr[$left] > $arr[$largest]) {
+        if ($left < $arr_count && $arr[$left] > $arr[$largest]) {
             $largest = $left;
         }
 
-        if ($right < $n && $arr[$right] > $arr[$largest]) {
+        if ($right < $arr_count && $arr[$right] > $arr[$largest]) {
             $largest = $right;
         }
 
         if ($largest != $i) {
             $this->swap($arr, $i, $largest);
-            $this->heapify($arr, $n, $largest);
+            $this->heapify($arr, $arr_count, $largest);
         }
+    }
+
+    public function delete(&$arr, &$arr_count)
+    {
+        if ($arr_count <= 0) {
+            return null;
+        }
+
+        // Store the maximum value, so we can return it
+        $max_val = $arr[0];
+
+        // Replace the root with the last item
+        $arr[0] = $arr[$arr_count - 1];
+
+        // Decrease the size of the heap
+        $arr_count--;
+
+        // Heapify the root node
+        $this->heapify($arr, $arr_count, 0);
+
+        return $max_val;
     }
 
     private function swap(&$arr, $i, $j)
