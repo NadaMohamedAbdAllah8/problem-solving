@@ -12,17 +12,27 @@ for ($i = $arr_count / 2 - 1; $i >= 0; $i--) {
 }
 
 echo implode(',', $arr);
-
 echo '<hr>';
 
 $to_be_sorted_array = [158, 10, 20, 1, 0, -9];
 $arr_count = count($to_be_sorted_array);
 
+echo 'before sorting: ' . implode(',', $to_be_sorted_array);
+
 $heap->heapSort($to_be_sorted_array, $arr_count);
-echo implode(',', $to_be_sorted_array);
+echo '<br>after sorting: ' . implode(',', $to_be_sorted_array);
 
 echo '<hr>';
-echo 'deleted=' . $heap->delete($to_be_sorted_array, $arr_count);
+echo 'deleted=' . $heap->delete($arr, $arr_count);
+echo '<br>array after deletion: ' . implode(',', $arr);
+
+echo '<hr>';
+echo 'before insertion: ' . implode(',', $arr);
+$arr_count = count($arr);
+$heap->insert($arr, $arr_count, 100);
+$insert_val = 100;
+echo '<br>value to be inserted=' . $insert_val;
+echo '<br>array after insertion=' . implode(',', $arr);
 
 class Heap
 {
@@ -62,6 +72,22 @@ class Heap
         }
     }
 
+    public function insert(&$arr, &$n, $value)
+    {
+        // Increase the size of the heap
+        $n++;
+
+        // Place the new element at the end of the heap
+        $i = $n - 1;
+        $arr[$i] = $value;
+
+        // Bubble up: While the parent is smaller than the current element, swap them
+        while ($i != 0 && $arr[$this->parent($i)] < $arr[$i]) {
+            $this->swap($arr, $i, $this->parent($i));
+            $i = $this->parent($i);
+        }
+    }
+
     public function delete(&$arr, &$arr_count)
     {
         if ($arr_count <= 0) {
@@ -90,4 +116,8 @@ class Heap
         $arr[$j] = $temp;
     }
 
+    private function parent($i)
+    {
+        return floor(($i - 1) / 2);
+    }
 }
