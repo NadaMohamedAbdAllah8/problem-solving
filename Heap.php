@@ -13,25 +13,24 @@ for ($i = $n / 2 - 1; $i >= 0; $i--) {
 
 echo implode(',', $arr) . '<hr>';
 
-$unsorted_arr = [158, 10, 20, 1, 0, -9];
-$heap->heapSort($unsorted_arr, count($unsorted_arr));
-echo implode(',', $unsorted_arr);
+$to_be_sorted_array = [158, 10, 20, 1, 0, -9];
+$heap->heapSort($to_be_sorted_array, count($to_be_sorted_array));
+echo implode(',', $to_be_sorted_array);
 
 class Heap
 {
-    public function heapSort(&$arr, $N)
+    public function heapSort(&$arr, $arr_count)
     {
-        // Build heap (rearrange array)
-        for ($i = $N / 2 - 1; $i >= 0; $i--) {
-            $this->heapify($arr, $N, $i);
+        // Build max heap (rearrange array)
+        for ($i = $arr_count / 2 - 1; $i >= 0; $i--) {
+            $this->heapify($arr, $arr_count, $i);
         }
 
         // One by one extract an element from heap
-        for ($i = $N - 1; $i > 0; $i--) {
+        for ($i = $arr_count - 1; $i > 0; $i--) {
             // Move current root to end
             $this->swap($arr, 0, $i);
 
-            // call max heapify on the reduced heap
             $this->heapify($arr, $i, 0);
         }
     }
