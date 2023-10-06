@@ -3,36 +3,44 @@
 use Solution as GlobalSolution;
 
 $solution = new GlobalSolution();
+$strs2 = ["dog","racecar","car"];
+$strs1 = ["flower", "flow", "flight"];
+$strs3 = ["ab", "a"];
+echo $solution->longestCommonPrefix($strs1);
+echo '<hr>';
+echo $solution->longestCommonPrefix($strs2);
+echo '<hr>';
+echo $solution->longestCommonPrefix($strs3);
 
-echo $solution->longestCommonPrefix(["flower", "flow", "flight"]);
 
 class Solution
 {
-
-    /**
-     * @param String[] $strs
-     * @return String
-     */
     public function longestCommonPrefix($strs)
     {
         $words_count = count($strs);
 
-        if ($words_count <= 1) {
-            return " ";
+        if ($words_count == 1) {
+            return $strs[0];
         }
 
-        $prefix = $strs[0][0];
+        $prefix = $strs[0];
+        $prefix_length = strlen($prefix);
 
-        // for ($word = 0; $word < $words_count; $word++) {
-        foreach ($strs as $word) {
-            // flower
-            for ($char = 0; $char < strlen($word); $char++) {
-                $prefix = $word[$char];
+        for ($i = 1; $i < $words_count; $i++) {
+            $word_length = strlen($strs[$i]);
 
+            if($prefix_length > $word_length) {
+                $prefix = substr($prefix, 0, $word_length);
+                $prefix_length = strlen($prefix);
+            }
+
+            for($j = 0;$j < $word_length;$j++) {
+                if($prefix[$j] != $strs[$i][$j]) {
+                    $prefix = substr($prefix, 0, $j);
+                }
             }
         }
 
-        return " ";
-
+        return $prefix;
     }
 }
