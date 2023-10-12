@@ -2,7 +2,7 @@
 
 use Solution as GlobalSolution;
 
-$number_1 = 200;
+$number_1 = 19;
 
 $solution = new GlobalSolution();
 
@@ -22,7 +22,7 @@ class Solution
         while($number_sum != 1) {
             $number_sum = $this->digitSum((string)$number_sum) ;
 
-            if($number_sum <= 9) {
+            if($number_sum <= 9 && $number_sum != 1) {
                 return false;
             }
         }
