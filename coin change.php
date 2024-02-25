@@ -1,4 +1,5 @@
 <?php
+// Similar to the ATM problem
 
 use Solution as GlobalSolution;
 
@@ -11,7 +12,7 @@ $amount_2 = 250;
 $coins_2 = [10, 20, 50, 100, 200];
 
 $solution = new GlobalSolution();
-echo '<hr>For the amount ' . $amount . ' ,and the coins ' . implode(',', $coins)
+echo '<hr>For the amount ' . $amount_2 . ' ,and the coins ' . implode(',', $coins_2)
     . ' there are ' . $solution->coinChange($coins_2, $amount_2) . ' min possible changes';
 
 class Solution
@@ -26,6 +27,7 @@ class Solution
 
         for ($i = 1; $i < $count; $i++) {
             foreach ($coins as $coin) {
+                echo '$coin=' . $coin;
                 if ($i >= $coin) {
                     $check_index = $i - $coin;
                     $results[$i] = min($results[$i], $results[$check_index] + 1);
