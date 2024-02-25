@@ -4,90 +4,58 @@ $s = "abccccdd";
 $s = "bananas";
 
 $s = "civilwartestingwhetherthatnaptionoranynartionsoconceivedandsodedicatedcanlongendureWeareqmetonagreatbattlefiemldoftzhatwarWehavecometodedicpateaportionofthatfieldasafinalrestingplaceforthosewhoheregavetheirlivesthatthatnationmightliveItisaltogetherfangandproperthatweshoulddothisButinalargersensewecannotdedicatewecannotconsecratewecannothallowthisgroundThebravelmenlivinganddeadwhostruggledherehaveconsecrateditfaraboveourpoorponwertoaddordetractTgheworldadswfilllittlenotlenorlongrememberwhatwesayherebutitcanneverforgetwhattheydidhereItisforusthelivingrathertobededicatedheretotheulnfinishedworkwhichtheywhofoughtherehavethusfarsonoblyadvancedItisratherforustobeherededicatedtothegreattdafskremainingbeforeusthatfromthesehonoreddeadwetakeincreaseddevotiontothatcauseforwhichtheygavethelastpfullmeasureofdevotionthatweherehighlyresolvethatthesedeadshallnothavediedinvainthatthisnationunsderGodshallhaveanewbirthoffreedomandthatgovernmentofthepeoplebythepeopleforthepeopleshallnotperishfromtheearth";
-
+$s2 = "babad";
+$s3 = "cbbd";
 $solution = new Solution();
 
-echo '<br/>' . 'longestPalindrome=' . $solution->longestPalindrome($s) . '<br/>';
+$longes_palindrome = $solution->longestPalindrome($s) ;
+echo '<br/>' . 'longestPalindrome=' . $longes_palindrome . ', its length=' . strlen($longes_palindrome) . '<br/>';
 
 class Solution
 {
-
     /**
      * @param String $s
      * @return Integer
      */
-    public function longestPalindrome($s)
+    public function longestPalindrome($s): string
     {
-        // remove non letters
-        $s = preg_replace("/[^a-z|A-Z]/", '', $s);
-
-        $s_to_remove_from = $s;
-
-        // echo 'after removing=' . $s;
-
-        $length = strlen($s_to_remove_from);
-
-        if ($length < 2) {
-            return $length;
+        if(strlen($s) <= 1) {
+            return $s;
         }
 
-        $removing_count = 0;
+        $str_len = strlen($s);
+        $max_palindrome_length = 0;
+        $palindrome_start = 0;
+        $palindrome_end = 0;
 
-        $longest_length = 0;
+        for($i = 0;$i < $str_len;$i++) {
+            $regular_case = $this->expandFromMiddle($s, $i, $i + 1);
+            // like racecar, e does not ahve a match, but the word is still a palindrome
+            $odd_case = $this->expandFromMiddle($s, $i, $i);
 
-        $chars_count = [];
-        // count number of each character repetition
+            $max_palindrome_length = max($regular_case, $odd_case);
 
-        for ($i = 0; $i < $length; $i++) {
-
-            $s_to_remove_from =
-                str_replace($s[$i], "", $s_to_remove_from, $removing_count);
-
-            //echo '$s_to_remove_from[0]=' . $s_to_remove_from[0] . '<br>';
-            // echo '$removing_count=' . $removing_count . '<br>';
-
-            // char=>how many times it is repeated
-            if (!array_key_exists($s[$i], $chars_count)) {
-                $chars_count[$s[$i]] = $removing_count;
+            // this includes comparing current max with the old max
+            if($max_palindrome_length > ($palindrome_end - $palindrome_start)) {
+                $palindrome_start = ceil($i - ($max_palindrome_length - 1) / 2) ;
+                $palindrome_end = $i + $max_palindrome_length / 2;
             }
-
-            //   if ($removing_count % 2 == 0) {
-            //       $longest_length += $removing_count;
-
-            //   } else {
-
-            //       if ($length == 1) {
-            //           $longest_length += $removing_count;
-            //       }
-
-            //       $longest_length += $removing_count - 1;
-            //   }
-
-            // echo '  $longest_length=' . $longest_length . '<br>';
-
-            //$length = strlen($s_to_remove_from);
         }
 
-        //   var_dump($chars_count);
+        return substr($s, $palindrome_start, $palindrome_end);
+    }
 
-        $arr_length = count($chars_count);
-
-        $longest_odd = 0;
-
-        $has_old = 0;
-
-        foreach ($chars_count as $char_count) {
-            if ($char_count % 2 == 0) {
-                $longest_length += $char_count;
-
-            } else {
-                $longest_length += $char_count - 1;
-
-                $has_old = 1;
-            }
-
+    private function expandFromMiddle(string $str, int $left, int $right): int
+    {
+        if($right < $left) {
+            return 0;
         }
 
-        return $longest_length + $has_old;
+        while($left >= 0 && $right < strlen($str) && $str[$right] == $str[$left]) {
+            $left--;
+            $right++;
+        }
+
+        return $right - $left - 1;
     }
 }
