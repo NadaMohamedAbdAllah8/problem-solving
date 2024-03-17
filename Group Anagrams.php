@@ -3,7 +3,7 @@ $strs1 = ["eat", "tea", "tan", "ate", "nat", "bat"];
 
 $solution = new Solution();
 
-var_dump($solution->groupAnagrams($strs1));
+var_dump($solution->groupAnagramsByCountingCharacters($strs1));
 
 class Solution
 {
@@ -26,6 +26,31 @@ class Solution
                               } else {
                                         $anagrams[$total_ascii] = [$word];
                               }
+                    }
+
+                    return array_values($anagrams);
+          }
+
+          function groupAnagramsByCountingCharacters($strs)
+          {
+                    $anagrams = [];
+
+                    foreach ($strs as $word) {
+                              // Create an array to count occurrences of each character
+                              // Initialize it with 26 zeros for each letter of the alphabet
+                              $count = array_fill(0, 26, 0);
+
+                              // Count each character in the word
+                              for ($i = 0; $i < strlen($word); $i++) {
+                                        $char_pos = ord($word[$i]) - ord('a'); // Calculate position in the alphabet
+                                        $count[$char_pos]++;
+                              }
+
+                              // Create a unique string (signature) from the counts
+                              $signature = implode('#', $count);
+
+                              // Group by the signature
+                              $anagrams[$signature][] = $word;
                     }
 
                     return array_values($anagrams);
