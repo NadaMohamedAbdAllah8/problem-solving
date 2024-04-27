@@ -3,9 +3,11 @@
 $s = "egg";
 $t = "add";
 
+$s_1 = "foo";
+$t_1 = "barr";
 $solution = new Solution();
 
-echo $solution->isIsomorphic($s, $t);
+echo $solution->isIsomorphic($s_1, $t_1) . '-';
 
 class Solution
 {
@@ -36,7 +38,7 @@ class Solution
 
                     print_r($character_repetition_difference);
 
-                    return count($character_repetition_difference) != 0;
+                    return count($character_repetition_difference) == 0;
           }
 
           private function buildHashMap($word): array
